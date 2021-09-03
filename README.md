@@ -44,7 +44,9 @@ kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.contexts[?(@.cont
 
 ###### looking for pods without limits and requests 
 
-kg po -A -o custom-columns=NAMESPACE:metadata.namespace,NAME:metadata.name,LIMITS-REQUESTS:spec.containers[*].resources |grep -v kube-system
+kubectl get pods -A -o custom-columns='NAMESPACE:metadata.namespace,NAME:metadata.name,LIMITS-REQUESTS:spec.containers[*].resources' |grep -v kube-system
+
+#
 NAMESPACE        NAME                                                        LIMITS-REQUESTS
 default          app1-6ffdd6cd84-2f4dr                                       map[limits:map[cpu:500m memory:128Mi] requests:map[cpu:250m memory:64Mi]]
 default          app1-6ffdd6cd84-vms6d                                       map[limits:map[cpu:500m memory:128Mi] requests:map[cpu:250m memory:64Mi]]
