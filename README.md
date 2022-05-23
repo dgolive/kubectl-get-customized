@@ -15,6 +15,13 @@ DEPLOYMENT   CONTAINER_IMAGE   READY_REPLICAS   NAMESPACE
 
 kubectl get po --sort-by=spec.nodeName -o wide
 
+###### get nodes with custom-colums
+kubectl get nodes -o custom-columns='NAME:metadata.name,STATUS:status.conditions[3].type,VERSION:status.nodeInfo.kubeletVersion,OS-IMAGE:status.nodeInfo.osImage,CONTAINER-RUNTIME:status.nodeInfo.containerRuntimeVersion'
+
+NAME                                       STATUS   VERSION               OS-IMAGE                         CONTAINER-RUNTIME
+ip-10-0-1-121.us-east-2.compute.internal   Ready    v1.21.5-eks-bc4871b   Windows Server 2019 Datacenter   docker://20.10.9
+
+
 
 ###### checking pv sort-by capacity
 
