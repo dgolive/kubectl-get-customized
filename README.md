@@ -1,4 +1,5 @@
-# Kubernetes cheat-sheet
+# kubectl get customized
+
 ### Sorting pods by name
 
 
@@ -54,7 +55,7 @@ pv-log-3   300Mi      RWX            Retain           Available                 
 
 ##### checking pv sort-by capacity with custom-columns
 ```
-kg pv --sort-by=spec.capacity.storage -o custom-columns=NAME:.metadata.name,CAPACITY:.spec.capacity.storage --sort-by=spec.capacity.storage
+kubectl get pv --sort-by=spec.capacity.storage -o custom-columns=NAME:.metadata.name,CAPACITY:.spec.capacity.storage --sort-by=spec.capacity.storage
 ```
 ```
 NAME       CAPACITY
@@ -83,53 +84,5 @@ default          app2-d4d554b75-7x696                                        map
 ```
 
 
-### Getting LOGS
 
-
-##### all pod logs
-```
-kubectl  logs -n kong -c ingress-controller -l app.kubernetes.io/instance=kong -f --max-log-requests=6
-```
-##### using tail
-```
-kubectl logs --tail=30 -n kube-system pod/kube-apiserve
-```
-
-##### DNS debbuing resolution
-```
-kubectl apply -f https://k8s.io/examples/admin/dns/dnsutils.yaml
-kubectl exec -i -t dnsutils -- nslookup kubernetes.default
-
-ref.: https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/
-```
-
-#### kubernetes cheat sheet
-
-##### expand pvc
-```
-- kubectl patch pvc pvc-name --patch '{ "spec": { "resources": { "requests": { "storage": "120Mi" }}}}'
-```
-
-##### pvc or pv in terminating state:
-```
-- kubectl get pvc | tail -n+2 | awk '{print $1}' | xargs -I{} kubectl patch pvc {} -p '{"metadata":{"finalizers": null}}'
-- kubectl get pv | tail -n+2 | awk '{print $1}' | xargs -I{} kubectl patch pv {} -p '{"metadata":{"finalizers": null}}'
-```
-
-##### run curl test temporarily
-```
-- kubectl run --rm helloworld --image=yauritux/busybox-curl -it
-```
-
-###### run wget test temporarily
-- kubectl run --rm helloworld --image=busybox -it
-
-##### run nginx deployment with 2 replicas
-```
-- kubectl run --rm helloworld-web --image=nginx --replicas=2 --port=80
-```
-
-##### run nginx pod and expose it
-```
-- kubectl run hellowolrd-web --image=nginx
 ```
