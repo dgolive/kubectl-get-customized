@@ -1,31 +1,5 @@
 # kubectl get customized
 
-### Sorting pods by name
-
-
-##### get pods sort by NAME
-```
-kubectl get pods --sort-by=.metadata.name
-```
-
-##### get pods sort by AGE
-```
-kubectl get pods --sort-by=.status.startTime 
-```
-
-### Customizing the get service
-##### get deployments with custom-columns, like: DEPLOYMENT   CONTAINER_IMAGE   READY_REPLICAS   NAMESPACE 
-```
-kubectl get deploy -o custom-columns='DEPLOYMENT:.metadata.name,'\
-'CONTAINER_IMAGE:.spec.template.spec.containers[].image,'\
-'READY_REPLICAS:.status.readyReplicas,'\
-'NAMESPACE:.metadata.namespace'\
-'--sort-by=.metadata.name'
-```
-
-##### get pods sort-by NODE NAME
-
-kubectl get pods --sort-by=spec.nodeName -o wide
 
 ##### get nodes with custom-colums
 ```
@@ -39,6 +13,35 @@ kubectl get nodes -o custom-columns='NAME:metadata.name,'\
 NAME                                       STATUS   VERSION               OS-IMAGE                         CONTAINER-RUNTIME
 ip-10-0-1-121.us-east-2.compute.internal   Ready    v1.21.5-eks-bc4871b   Windows Server 2019 Datacenter   docker://20.10.9
 ```
+
+### Sorting pods by name
+
+
+##### get pods sort by NAME
+```
+kubectl get pods --sort-by=.metadata.name
+```
+
+##### get pods sort by AGE
+```
+kubectl get pods --sort-by=.status.startTime 
+```
+
+### Customizing the get resource and sorting
+##### get deployments with custom-columns, like: DEPLOYMENT   CONTAINER_IMAGE   READY_REPLICAS   NAMESPACE 
+```
+kubectl get deploy -o custom-columns='DEPLOYMENT:.metadata.name,'\
+'CONTAINER_IMAGE:.spec.template.spec.containers[].image,'\
+'READY_REPLICAS:.status.readyReplicas,'\
+'NAMESPACE:.metadata.namespace'\
+'--sort-by=.metadata.name'
+```
+
+##### get pods sort-by NODE NAME
+
+kubectl get pods --sort-by=spec.nodeName -o wide
+
+
 
 
 ##### checking pv sort-by capacity
@@ -65,10 +68,7 @@ pv-log-2   200Mi
 pv-log-3   300Mi
 ```
 
-##### Use a JSON PATH query to identify the context configured for the aws-user in the my-kube-config context file and store the result in /opt/outputs/aws-context-name.
-```
-kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.contexts[?(@.context.user=='aws-user')].name}" > /opt/outputs/aws-context-name
-```
+
 
 ##### looking for pods without limits and requests 
 ```
